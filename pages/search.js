@@ -1,11 +1,22 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useRouter } from "next/router";
 import React from "react";
+import { format } from "date-fns";
 
-const Search = () => {
+const Search = ({ searchResults }) => {
+  const router = useRouter();
+  const { location, startDate, endDate, numberOfGusts } = router.query;
+  const formattedStartDate =
+    startDate && format(new Date(startDate), "dd MMM yy");
+  const formattedEndDate = endDate && format(new Date(endDate), "dd MMM yy");
+  const range = `${formattedStartDate} - ${formattedEndDate}`;
+  console.log(searchResults, "search");
   return (
     <div>
-      <Header />
+      <Header
+        placeholder={`${location} | ${range} | ${numberOfGusts} guests`}
+      />
       <main className="flex">
         <section className="flex-grow pt-14 px-6">
           <p className="text-xs">300+ Stays for 5 number of gusts</p>
@@ -26,3 +37,14 @@ const Search = () => {
 };
 
 export default Search;
+
+export async function getServerSideProps() {
+  const searchResults = await fetch("https://www.jsonkeeper.com/b/5NPS").then(
+    (res) => res.json()
+  );
+  return {
+    props: {
+      searchResults,
+    },
+  };
+}
