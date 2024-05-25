@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { format } from "date-fns";
 import InfoCard from "@/components/InfoCard";
+import MapBox from "@/components/Map";
 
 const Search = ({ searchResults }) => {
   const router = useRouter();
@@ -51,6 +52,9 @@ const Search = ({ searchResults }) => {
               })}
           </div>
         </section>
+        <section className="hidden xl:inline-flex xl:min-w-[600px]">
+          <MapBox />
+        </section>
       </main>
       <Footer />
     </div>
@@ -60,9 +64,9 @@ const Search = ({ searchResults }) => {
 export default Search;
 
 export async function getServerSideProps() {
-  const searchResults = await fetch("https://www.jsonkeeper.com/b/5NPS").then(
-    (res) => res.json()
-  );
+  const searchResults = await fetch("https://www.jsonkeeper.com/b/5NPS")
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
   return {
     props: {
       searchResults,
