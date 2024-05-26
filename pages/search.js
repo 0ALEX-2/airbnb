@@ -5,6 +5,7 @@ import React from "react";
 import { format } from "date-fns";
 import InfoCard from "@/components/InfoCard";
 import MapBox from "@/components/Map";
+import { Map } from "react-map-gl";
 
 const Search = ({ searchResults }) => {
   const router = useRouter();
@@ -53,7 +54,7 @@ const Search = ({ searchResults }) => {
           </div>
         </section>
         <section className="hidden xl:inline-flex xl:min-w-[600px]">
-          <MapBox />
+          <MapBox searchResults={searchResults} />
         </section>
       </main>
       <Footer />
